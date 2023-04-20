@@ -1,0 +1,30 @@
+name: mimo_clone
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.0.5
+  percent_indicator: ^4.2.3
+  cupertino_icons: ^1.0.5
+  responsive_sizer: ^3.1.1
+  flutter_screenutil: ^5.7.0
+  assorted_layout_widgets: ^8.0.0
+  icon_decoration: ^1.0.1
+  sqflite: ^2.2.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+      - lib/images/

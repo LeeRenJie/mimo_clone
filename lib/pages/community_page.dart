@@ -31,6 +31,13 @@ class _CommunityPageState extends State<CommunityPage> {
     _refreshData();
   }
 
+  @override
+  void dispose() {
+  _controller.dispose();
+  SQLHelper.close();
+  super.dispose();
+}
+
   Future<void> _addData() async {
     await SQLHelper.createData(_titleController.text, _descController.text);
     _refreshData();

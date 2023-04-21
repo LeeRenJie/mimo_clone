@@ -34,16 +34,24 @@ class ExercisePageState extends State<ExercisePage> {
 
   // start the timer
   void _startTimer() {
-    if(mounted) {
+    // set the _timerRunning flag to true to indicate that the timer is running
+    if (mounted) {
       setState(() {
         _timerRunning = true;
       });
     }
+
+    // set the timer interval to one second
     const oneSec = Duration(seconds: 1);
+
+    // start the timer and execute the callback function every one second
     Timer.periodic(oneSec, (timer) {
-      if(mounted) {
+      // check if the widget is still mounted before updating its state
+      if (mounted) {
         setState(() {
+          // decrement the remaining time by one second
           if (_timeLeft < 1) {
+            // if the timer has expired, cancel the timer and set _timerRunning to false
             timer.cancel();
             _timerRunning = false;
           } else {
@@ -52,6 +60,19 @@ class ExercisePageState extends State<ExercisePage> {
         });
       }
     });
+  }
+
+  List<ElevatedButton> answerButtonRow(List<String> buttonTextList) {
+    return buttonTextList.map((text) {
+      return ElevatedButton(
+        onPressed: () {},
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.white),
+          foregroundColor: MaterialStateProperty.all(Colors.black),
+        ),
+        child: Text(text, style: const TextStyle(color: Colors.black)),
+      );
+    }).toList();
   }
 
   @override
@@ -102,124 +123,147 @@ class ExercisePageState extends State<ExercisePage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16,16,16,10),
-              // child: Instructions(
-              //   text: 'Code a button that has the text Post.',
-              //   codeWords: ['Post'],
-              // ),
-              child: RichText(
-                text: const TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "Code a button that has the text ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                    TextSpan(
-                      text: "Post",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        backgroundColor: Color.fromARGB(255, 228, 226, 226),
-                      ),
-                    ),
-                    TextSpan(
-                      text: ".",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey.shade300,
-                  width: 1.0,
-                ),
-                color: Colors.white,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(10,10,10,0),
-                    child: Text(
-                      'index.html',
-                      style: TextStyle(fontSize: 12.0),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16,16,16,10),
+                  child: RichText(
+                    text: const TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Code a button that has the text ",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "Post",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            backgroundColor: Color.fromARGB(255, 228, 226, 226),
+                          ),
+                        ),
+                        TextSpan(
+                          text: ".",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const Divider(),
-                  Container(
-                    //Code displayed here with empty spaces for user to fill in with button options
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey.shade300,
+                      width: 1.0,
+                    ),
+                    color: Colors.white,
                   ),
-                ],
-              ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(10,10,10,0),
+                        child: Text(
+                          'index.html',
+                          style: TextStyle(fontSize: 12.0),
+                        ),
+                      ),
+                      Divider(),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(10,0,10,0),
+                        child:TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Answer here...',
+                            hintStyle: TextStyle(
+                              fontSize: 16.0,
+                              letterSpacing: 1.0,
+                            ),
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                          ),
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            letterSpacing: 1.0,
+                          ),
+                          cursorColor: Colors.blue,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child:Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  color:Colors.white,
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.refresh_outlined),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.backspace_outlined),
+                          ),
+                          const Spacer(),
+                          SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: TextButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255,78, 83, 141)),
+                                foregroundColor: MaterialStateProperty.all(Colors.white),
+                              ),
+                              child: const Icon(Icons.play_arrow),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: GridView.count(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 4,
+                          childAspectRatio: 5/3,
+                          mainAxisSpacing:8,
+                          crossAxisSpacing: 8,
+                          children: answerButtonRow(['>', '</', 'button', 'button', '>', '<', 'Post']),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 }
-
-// class Instructions extends StatelessWidget {
-//   final String text;
-//   final List<String> codeWords;
-
-//   const Instructions({
-//     Key? key,
-//     required this.text,
-//     required this.codeWords,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     const TextStyle codeStyle = TextStyle(
-//       color: Colors.black,
-//       backgroundColor: Color.fromARGB(255, 228, 226, 226),
-//     );
-
-//     final List<TextSpan> children = <TextSpan>[];
-
-//     // Split text into code and non-code segments and add them as TextSpans
-//     final RegExp pattern = RegExp('(?<=\\s)|(?=\\s)|(?<=^)|(?=\$)|(${codeWords.map((word) => RegExp.escape(word)).join('|')})');
-//     final List<String> segments = text.split(pattern);
-//     for (int i = 0; i < segments.length; i++) {
-//       if (codeWords.contains(segments[i])) {
-//         children.add(TextSpan(text: segments[i], style: codeStyle));
-//       } else {
-//         // Split each non-code segment into words and highlight any that match a codeWord
-//         final List<String> words = segments[i].split(' ');
-//         final List<TextSpan> wordSpans = words.map((word) {
-//           if (codeWords.contains(word)) {
-//             return TextSpan(text: word, style: codeStyle);
-//           } else {
-//             return TextSpan(text: word);
-//           }
-//         }).toList();
-//         if (i < segments.length - 1 && !codeWords.contains(segments[i + 1])) {
-//           wordSpans.add(const TextSpan(text: ' '));
-//         }
-//         children.addAll(wordSpans);
-//       }
-//     }
-
-//     return RichText(
-//       text: TextSpan(
-//         children: children,
-//       ),
-//     );
-//   }
-// }

@@ -52,31 +52,36 @@ class _CommunityPageState extends State<CommunityPage> {
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
-
   void showBottomSheet(int? id) async {
     // if id is not null then it will update, or it will add new data
     // when edit icon is pressed then the id will be given to bottomsheet function
     // and the new title or description will be updated.
-    if (id!=null){
-      final existingData = _allData.firstWhere((element) => element['id'] == id);
+    if (id != null) {
+      // Get the existing data based on the given ID
+      final existingData =
+          _allData.firstWhere((element) => element['id'] == id);
+      // Set the text in the title text field to the existing title
       _titleController.text = existingData['title'];
+      // Set the text in the description text field to the existing description
       _descController.text = existingData['desc'];
     }
-
+    // Show the modal bottom sheet
     showModalBottomSheet(
       elevation: 5,
       isScrollControlled: true,
       context: context,
       builder: (_) => Container(
-        padding:EdgeInsets.only(
+        padding: EdgeInsets.only(
           top: 30,
           left: 15,
           right: 15,
+          // Add the keyboard height to the bottom padding
           bottom: MediaQuery.of(context).viewInsets.bottom + 50,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // Title text field
             TextField(
               controller: _titleController,
               decoration: const InputDecoration(
@@ -84,47 +89,49 @@ class _CommunityPageState extends State<CommunityPage> {
                 hintText: "Title",
               ),
             ),
-            const SizedBox(height:10),
+            const SizedBox(height: 10),
+            // Description text field
             TextField(
               controller: _descController,
-              maxLines:4,
+              maxLines: 4,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Description",
               ),
             ),
-            const SizedBox(height:10),
+            const SizedBox(height: 10),
+            // "Post" or "Save" button
             Center(
               child: ElevatedButton(
                 onPressed: () async {
+                  // If ID is null, add new data
                   if (id == null) {
                     await _addData();
                   }
+                  // If ID is not null, update existing data
                   if (id != null) {
                     await _updateData(id);
                   }
-
+                  // Clear the text fields
                   _titleController.text = "";
                   _descController.text = "";
-
+                  // Close the bottom sheet
                   Navigator.of(context).pop();
-                  print("New Post Added!");
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(18),
                   child: Text(
+                    // If ID is null, display "Post"; otherwise, display "Save"
                     id == null ? "Post" : "Save",
                     style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500
-                    ),
-                  )
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
                 ),
-              )
-            )
+              ),
+            ),
           ],
-        )
-      )
+        ),
+      ),
     );
   }
 
@@ -256,8 +263,10 @@ class _CommunityPageState extends State<CommunityPage> {
               ),
             ),
             Column(
-              // mainAxisSize: MainAxisSize.max,
               children: [
+              //CircularProgressIndicator when _isLoading is true
+              //ListView.builder when it is false.
+              //ListView.builder is used to generate a scrollable list view with postss
               _isLoading
               ? const Center(child: CircularProgressIndicator(),)
               : ListView.builder(

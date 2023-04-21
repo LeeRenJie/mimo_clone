@@ -163,11 +163,12 @@ class _CommunityPageState extends State<CommunityPage> {
                 },
               ),
               const SizedBox(width: 8),
-              SizedBox(
+              const SizedBox(
                 width: 25,
                 height: 25,
-                child: Image.asset(
-                  'lib/images/profile_pic.jpg',
+                child: Icon(
+                  Icons.person,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(width: 8),

@@ -78,6 +78,7 @@ class SQLHelper {
     return db.query('data', where: "id = ?", whereArgs: [id], limit: 1);
   }
 
+  //update data based on id
   static Future<int> updateData(int id, String title, String? desc) async {
     final db = await SQLHelper.db();
     final data = {
@@ -89,6 +90,7 @@ class SQLHelper {
     return result;
   }
 
+  //delete data based on id
   static Future<void> deleteData(int id) async {
     final db = await SQLHelper.db();
     try {
@@ -97,6 +99,7 @@ class SQLHelper {
     } catch (e) {}
   }
 
+  //close database
   static Future<void> close() async {
     final db = await SQLHelper.db();
     await db.close();
